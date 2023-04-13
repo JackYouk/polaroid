@@ -6,14 +6,14 @@ import gsap from 'gsap'
 import Camera from './components/Camera';
 
 export default function ThreeCanvas(props) {
-    const photoArr = ['./goodair.png', './parrots.png', './goodair.png', './parrots.png'];
+    const photoArr = ['./HA.png', './jimi.png', './gdead.png', './guitargirl.png', './bear.png', './jerry.png', './santana.png'];
     const [photoIndex, setPhotoIndex] = useState(0)
     const { nodes, materials } = useGLTF("./polaroid_photo_sample.glb");
     const logoTexture = useMemo(() => {
         const tex = new THREE.TextureLoader().load(photoArr[photoIndex]);
         tex.wrapS = THREE.RepeatWrapping;
         tex.wrapT = THREE.RepeatWrapping;
-        tex.repeat.set(2, 2);
+        tex.repeat.set(3.2, 2.5);
         return tex;
     }, [photoIndex]);
 
@@ -40,18 +40,26 @@ export default function ThreeCanvas(props) {
 
                 <Text 
                     position={[0, 6, -10]} 
-                    scale={3.8} 
+                    scale={3.2} 
                     color='black' 
                     font='./shrikhand.ttf'
-                    lineHeight={1}
+                    lineHeight={0.8}
                 >
-                    good air {'\n'} studios
+                    summer {'\n'} of  
                 </Text>
-                {/* <Image url='./goodairtbg.png' position={[0, 6, -10]} scale={1}  /> */}
+                <Text 
+                    position={[1, 5.5, -10]} 
+                    scale={3.8} 
+                    color='red' 
+                    font='./shrikhand.ttf'
+                    lineHeight={1}
+                >LOVE</Text>
+                
+                <Image url='./Click-Me.png' position={[-6, 1, -5]} scale={[4, 2, 0]}  />
 
                 <group position={[-1, -3, 0]}>
                     <Float>
-                        <group {...props} dispose={null} onPointerMissed={() => setPhotoIndex(0)} onClick={() => setPhotoIndex(photoIndex + 1)}>
+                        <group {...props} dispose={null} onPointerMissed={() => setPhotoIndex(0)} onClick={() => photoIndex >= 6 ? setPhotoIndex(0) : setPhotoIndex(photoIndex + 1)}>
                             <group rotation={[-0.7, 0.2, 0.85]} scale={0.15}>
                                 <group position={[0, 0, 0]}>
                                     <mesh
