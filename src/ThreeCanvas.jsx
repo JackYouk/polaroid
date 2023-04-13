@@ -1,35 +1,36 @@
 import React, { Suspense, useRef, useMemo, useState } from 'react'
-import { Canvas } from '@react-three/fiber'
+import { useFrame } from '@react-three/fiber'
 import { Center, Text, Environment, Float, Loader, MeshReflectorMaterial, OrbitControls, useGLTF, Image } from '@react-three/drei'
 import * as THREE from 'three'
+import gsap from 'gsap'
 import Camera from './components/Camera';
 
 export default function ThreeCanvas(props) {
-    const [photo, setPhoto] = useState('./goodair.png')
+    const photoArr = ['./goodair.png', './parrots.png', './goodair.png', './parrots.png'];
+    const [photoIndex, setPhotoIndex] = useState(0)
     const { nodes, materials } = useGLTF("./polaroid_photo_sample.glb");
     const logoTexture = useMemo(() => {
-        const tex = new THREE.TextureLoader().load(photo);
+        const tex = new THREE.TextureLoader().load(photoArr[photoIndex]);
         tex.wrapS = THREE.RepeatWrapping;
         tex.wrapT = THREE.RepeatWrapping;
         tex.repeat.set(2, 2);
         return tex;
-    });
+    }, [photoIndex]);
 
     const polaroid = useRef();
 
+    useFrame((state) => {
+        const camera = state.camera.position;
+        gsap.to(camera, 4, {x: 1, y: 4, z: (window.innerWidth < 600 ? 30 : 20)})
+        if(photoIndex > 0){
+            gsap.to(camera, 4, {x: -1, y: 0, z: (window.innerWidth < 600 ? 15 : 5)})
+        }
+    });
+
     return (
         <>
-        <Canvas
-            camera={{
-                fov: 45,
-                near: 0.1,
-                far: 200,
-                position: [1, 4, (window.innerWidth < 600 ? 30 : 20)]
-            }}
-            {...props}
-        >
-            <Suspense fallback={null}>
-                <OrbitControls />
+        
+                {/* <OrbitControls /> */}
                 <color args={['#fff']} attach='background' />
                 {/* <Environment
                     background
@@ -50,7 +51,7 @@ export default function ThreeCanvas(props) {
 
                 <group position={[-1, -3, 0]}>
                     <Float>
-                        <group {...props} dispose={null} onClick={() => setPhoto('')}>
+                        <group {...props} dispose={null} onPointerMissed={() => setPhotoIndex(0)} onClick={() => setPhotoIndex(photoIndex + 1)}>
                             <group rotation={[-0.7, 0.2, 0.85]} scale={0.15}>
                                 <group position={[0, 0, 0]}>
                                     <mesh
@@ -94,9 +95,6 @@ export default function ThreeCanvas(props) {
                         roughness={1}
                     />
                 </mesh>
-            </Suspense>
-        </Canvas>
-        <Loader containerStyles={{ backgroundColor: 'white', color: 'black' }} />
                 </>
     );
 }
