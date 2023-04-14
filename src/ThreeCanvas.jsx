@@ -55,7 +55,7 @@ export default function ThreeCanvas(props) {
                     lineHeight={1}
                 >LOVE</Text>
                 
-                <Image url='./Click-Me.png' position={[-6, 1, -5]} scale={[4, 2, 0]}  />
+                <Image url='./Click-Me.png' transparent position={[-6, 1, -5]} scale={[4, 2, 0]}  />
 
                 <group position={[-1, -3, 0]}>
                     <Float>
