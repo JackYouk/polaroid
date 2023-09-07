@@ -32,11 +32,8 @@ export default function ThreeCanvas(props) {
         
                 {/* <OrbitControls /> */}
                 <color args={['#fff']} attach='background' />
-                {/* <Environment
-                    background
-                    files='./sky.pic'
-                /> */}
-                <Environment preset='city' />
+                <ambientLight />
+                <pointLight />
 
                 <Text 
                     position={[0, 6, -10]} 
