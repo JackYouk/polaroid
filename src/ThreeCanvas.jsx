@@ -34,7 +34,7 @@ export default function ThreeCanvas(props) {
                 <color args={['#fff']} attach='background' />
                 <ambientLight />
                 <pointLight />
-
+{/*  */}
                 <Text 
                     position={[0, 6, -10]} 
                     scale={3.2} 
